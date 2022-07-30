@@ -1,0 +1,6 @@
+-- Ab zweitem Durchlauf: Tabelle vorher löschen
+-- DROP TABLE FUNC_HEADER;
+CREATE TABLE FUNC_HEADER LIKE "SAP_PA_APL"."sap.pa.apl.base::BASE.T.FUNCTION_HEADER";
+INSERT INTO FUNC_HEADER VALUES ('Oid', '#CHURN_42');
+INSERT INTO FUNC_HEADER VALUES ('LogLevel', '8');
+INSERT INTO FUNC_HEADER VALUES ('ModelFormat', 'bin');

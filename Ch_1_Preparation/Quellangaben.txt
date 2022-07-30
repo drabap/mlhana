@@ -1,0 +1,16 @@
+CHURN:
+
+https://www.kaggle.com/shubh0799/churn-modelling?select=Churn_Modelling.csv
+
+
+IRIS_PLANTID:
+Heruntergeladen von und ergänzt um Spalte PLANTID:
+https://www.kaggle.com/arshid/iris-flower-dataset
+
+
+CUSTOMER_MALL:
+
+Heruntergeladen von 
+https://github.com/SteffiPeTaffy/machineLearningAZ/blob/master/Machine%20Learning%20A-Z%20Template%20Folder/Part%204%20-%20Clustering/Section%2024%20-%20K-Means%20Clustering/Mall_Customers.csv
+
+

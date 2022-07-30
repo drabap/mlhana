@@ -1,0 +1,6 @@
+-- Schemata löschen
+-- Todo with cascade option
+DROP SCHEMA ML_DATA;
+DROP SCHEMA ML_APL;
+DROP SCHEMA APL_CACHE;
+DROP SCHEMA ML_MODEL;
