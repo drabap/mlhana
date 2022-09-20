@@ -2,7 +2,7 @@
 from hana_ml import dataframe
 from hana_ml.algorithms.pal import partition
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 # CHURN laden
 l_df_churn = connection.table('CHURN', schema = 'ML_DATA')

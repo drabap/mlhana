@@ -3,7 +3,7 @@
 # Verbindung zur HANA
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 df_newscorp = connection.table('NEWSCORP', 
                                schema = 'ML_TEXT')

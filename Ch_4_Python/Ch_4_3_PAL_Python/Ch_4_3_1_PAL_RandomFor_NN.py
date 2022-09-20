@@ -19,7 +19,7 @@
 # Verbindung zur HANA
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV' )
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 # CHURN laden
 g_df_churn = connection.table('CHURN',
@@ -112,9 +112,9 @@ l_features = ['CREDITSCORE','GEOGRAPHY','GENDER','AGE',
                   'TENURE','BALANCE','NUMOFPRODUCTS',
                   'HASCRCARD','ISACTIVEMEMBER','ESTIMATEDSALARY']
 
-g_df_predict_test = rfc.predict( data = g_df_test,
-                                 key = 'CUSTOMERID',
-                                 features = l_features )
+g_df_predict_test = rfc.predict(data = g_df_test,
+                                key = 'CUSTOMERID',
+                                features = l_features)
 
 g_df_predict_test.collect()
 
@@ -123,9 +123,9 @@ g_df_predict_test.collect()
 
 
 # Korrektklassifikationsrate berechnen (engl.: Accuracy Score)
-rfc.score( data = g_df_test,
-           key = 'CUSTOMERID',
-           features = l_features)
+rfc.score(data = g_df_test,
+          key = 'CUSTOMERID',
+          features = l_features)
 
 
 # In[7]:
@@ -269,7 +269,7 @@ g_df_train_nn.agg([('count','EXITED','COUNT')],
 # Das neuronale Netz trainieren
 from hana_ml.algorithms.pal.neural_network import *
 
-mlp_c = MLPClassifier( hidden_layer_size = (30,15,10,5),
+mlp_c = MLPClassifier(hidden_layer_size = (30,15,10,5),
                       activation = 'sigmoid_symmetric', 
                       output_activation = 'sigmoid_symmetric',
                       training_style = 'batch',
@@ -407,10 +407,10 @@ l_features = ['CREDITSCORE','GEOGRAPHY','GENDER','AGE',
 
 
 
-mlp_c_opt.fit( data = g_df_train_nn,
+mlp_c_opt.fit(data = g_df_train_nn,
          key = 'CUSTOMERID',
          features = l_features,
-         label = 'EXITED' )        
+         label = 'EXITED')        
 
 
 # In[23]:

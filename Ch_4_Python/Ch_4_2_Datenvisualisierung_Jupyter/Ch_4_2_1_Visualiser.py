@@ -30,7 +30,7 @@ from hana_ml import dataframe
 from hana_ml.visualizers.eda import EDAVisualizer
 import matplotlib.pyplot as plt
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 # CHURN laden
 g_df_churn = connection.table('CHURN', schema = 'ML_DATA')
@@ -139,13 +139,13 @@ ax2 = fig_churn_by_age.add_subplot(122)
 eda2 = EDAVisualizer(ax2)
 ax2, pie_data2 = eda2.pie_plot(data = df_age_above_50, 
                                column = 'EXITED',
-                               title = "Churn for Age >= 50")
+                               title = "Churn for Age > 50")
 
 
 # In[8]:
 
 
-# Scatter Plot mit Iris-Daten
+# Streudiagramm mit Iris-Daten
 # Plottet SEPAL_WIDTH vs. SEPAL_LENGTH
 
 fig_scatter_iris = plt.figure(figsize=(18,6))
@@ -157,7 +157,7 @@ eda = EDAVisualizer(ax1)
 # Greys: Graustufen
 # Reds, Blues
 
-ax1, scatter_data = eda.scatter_plot( data = g_df_iris, 
+ax1, scatter_data = eda.scatter_plot(data = g_df_iris, 
                                   x = 'SEPAL_WIDTH', 
                                   y = 'SEPAL_LENGTH', 
                                   x_bins = 4, y_bins = 4,
@@ -168,7 +168,7 @@ ax1, scatter_data = eda.scatter_plot( data = g_df_iris,
 # In[3]:
 
 
-# Einschub: Binning manuel machen und zählen
+# Einschub: Binning manuell machen und zählen
 # Mismatch zu Scatter plot => Quellcode prüfen => anscheinend andere Strategie
 l_df_iris_bin = g_df_iris.bin(col = 'SEPAL_WIDTH', 
                               strategy = 'uniform_number', 
@@ -216,7 +216,7 @@ g_df_iris.corr('SEPAL_LENGTH','SEPAL_WIDTH').collect()
 # In[11]:
 
 
-# Box plot für die Variable BALANCE
+# Boxplot für die Variable BALANCE
 # Variation: Gruppieren nach Spalte, z.B. GEOGRAPHY
 
 f = plt.figure(figsize=(18,6))
@@ -228,7 +228,7 @@ l_df_bal = g_df_churn.filter("BALANCE > 0")
 ax, bar_data = eda.box_plot(data = l_df_bal,
                             column = 'BALANCE',
                             #groupby = 'GEOGRAPHY',
-                            outliers = True )
+                            outliers = True)
                                                  
 
 
@@ -236,7 +236,7 @@ ax, bar_data = eda.box_plot(data = l_df_bal,
 
 
 # Ergänzung:
-# Box plot: SEPAL_LENGTH nach Art (SPECIES)
+# Boxplot: SEPAL_LENGTH nach Art (SPECIES)
 # outliers = true => Ausreißer darstellen
 
 f = plt.figure(figsize=(18,6))
@@ -251,7 +251,7 @@ ax, bar_data = eda.box_plot(data = g_df_iris, column='SEPAL_LENGTH',
 # In[13]:
 
 
-# Ergänzung: Statistische Kennzahlen für Box Plot ermitteln
+# Ergänzung: Statistische Kennzahlen für Boxplot ermitteln
 list_cols_proj = ['column','median',
                   'min','max',
                   '25_percent_cont',

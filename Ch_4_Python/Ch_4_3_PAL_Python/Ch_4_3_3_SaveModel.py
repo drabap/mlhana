@@ -17,7 +17,7 @@
 # Übernahme Listings: 4.27 Verbindung zur HANA, 4.28 Daten partitionieren, 4.29 Trainieren des RandomForest
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 # CHURN laden
 g_df_churn = connection.table('CHURN', schema = 'ML_DATA')
@@ -32,7 +32,7 @@ g_df_train, g_df_test, g_df_valid = partition.train_test_val_split(
                                                     partition_method = 'stratified',
                                                     training_percentage = 0.6, validation_percentage = 0.0,
                                                     testing_percentage = 0.4,
-                                                    stratified_column = 'EXITED' )
+                                                    stratified_column = 'EXITED')
 
 # Anzahl Kündigungen in Trainingsmenge
 # train.agg([('count','CUSTOMERID','count_customer')] , group_by = ['EXITED']).collect()
@@ -40,12 +40,12 @@ g_df_train, g_df_test, g_df_valid = partition.train_test_val_split(
 
 # Trainieren des Random Forest
 from hana_ml.algorithms.pal.trees import *
-rfc = RandomForestClassifier( n_estimators = 10,
+rfc = RandomForestClassifier(n_estimators = 10,
                              max_features = 10, random_state = 2,
-                            split_threshold = 0.00001,
-                            categorical_variable = ['EXITED'], 
-                            strata = [(0,0.5),(1,0.5)], 
-                            thread_ratio = 1.0 )
+                             split_threshold = 0.00001,
+                             categorical_variable = ['EXITED'], 
+                             strata = [(0,0.5),(1,0.5)], 
+                             thread_ratio = 1.0)
 
 g_features = ['CREDITSCORE','GEOGRAPHY','GENDER','AGE','TENURE','BALANCE','NUMOFPRODUCTS','HASCRCARD','ISACTIVEMEMBER','ESTIMATEDSALARY']
 
@@ -112,14 +112,14 @@ MODEL_SCHEMA = 'ML_MODEL' # HANA-Schema in dem die erzeugten Modelle gespeichert
 
 model_storage = ModelStorage( 
     connection_context = connection,
-    schema = MODEL_SCHEMA )
+    schema = MODEL_SCHEMA)
 
 g_model_name_rfc = 'RandomForest CHURN'
 
 rfc.name = g_model_name_rfc
 
-model_storage.save_model( model = rfc, 
-                         if_exists = 'upgrade' )                       
+model_storage.save_model(model = rfc, 
+                         if_exists = 'upgrade')                       
 
 # Werte für if_exists: 
 # replace: Letzte Version wird ersetzt; 
@@ -180,7 +180,7 @@ connection.table('MODEL_METRIC', schema = 'ML_MODEL').collect()
 
 
 # Ein gespeichertes Modell laden
-g_rfc_loaded = model_storage.load_model( name = g_model_name_rfc )
+g_rfc_loaded = model_storage.load_model(name = g_model_name_rfc)
 # Optionaler Parameter: version => Keine Angabe => Letzte Version nehmen
 # Bestimmte Version laden: 
 # rfc_loaded = model_storage.load_model(
@@ -214,8 +214,7 @@ l_df_new_cust = dataframe.create_dataframe_from_pandas(connection_context = conn
                                                      schema = 'ML_DATA',
                                                      primary_key = 'CUSTOMERID',
                                                      drop_exist_tab = True,
-                                                     force = True
-                                                    )
+                                                     force = True)
 l_df_new_cust.collect()
 
 

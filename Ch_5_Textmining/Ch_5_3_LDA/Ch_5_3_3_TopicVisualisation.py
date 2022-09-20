@@ -13,7 +13,7 @@
 
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 df = connection.table('PAL_LDA_DOCUMENT_TOPIC_DIST',
                       schema = 'ML_TEXT')
 
@@ -25,7 +25,7 @@ df.sort(['KEY','TOPIC_ID']).head(20).collect()
 
 
 # Transponieren der Themenscores in Spalten
-topics_pivot = df.pivot_table( columns = 'TOPIC_ID',
+topics_pivot = df.pivot_table(columns = 'TOPIC_ID',
     values = 'PROBABILITY',
     index = 'KEY',
     aggfunc = 'AVG')
@@ -50,12 +50,11 @@ tsne = TSNE(n_iter = 500,
             learning_rate = 200,
             perplexity = 30,
             object_frequency = 50,
-            thread_ratio = 0.5
-           )
+            thread_ratio = 0.5)
 
 df_tsne_res, stats, obj = tsne.fit_predict(
                                    data = topics_pivot, 
-                                   key = 'KEY' )
+                                   key = 'KEY')
 
 df_tsne_res.collect()
 
@@ -63,14 +62,14 @@ df_tsne_res.collect()
 # In[4]:
 
 
-# Scatter Plot vom t-SNE-Ergebnis
+# Streudiagramm vom t-SNE-Ergebnis
 pd_res = df_tsne_res.collect()
 
-pd_res.plot( kind = 'scatter',  
-              x = 'x',
-              y = 'y',
-              c = 'z',
-              cmap = 'coolwarm' )
+pd_res.plot(kind = 'scatter',  
+            x = 'x',
+            y = 'y',
+            c = 'z',
+            cmap = 'coolwarm')
 
 
 # ## Zusatz: Clustern der projezierten Daten
@@ -81,22 +80,21 @@ pd_res.plot( kind = 'scatter',
 # Clustern der projizierten Daten
 from hana_ml.algorithms.pal.clustering import DBSCAN
 
-dbscan = DBSCAN( minpts = 50,
-                 eps = 5,
-                 metric = 'euclidean' )
+dbscan = DBSCAN(minpts = 50,
+                eps = 5,
+                metric = 'euclidean')
 
 # Clustering durchführen und Zuweisung zwischenspeichern
-df_cluster_assignment = dbscan.fit_predict( 
-                                        data = df_tsne_res,
-                                        key = 'KEY' )
+df_cluster_assignment = dbscan.fit_predict(data = df_tsne_res,
+                                           key = 'KEY')
 
 
 # Cluster anzeigen:
 # Anzahl Sätze pro Cluster
-cluster_agg = df_cluster_assignment.agg( [
+cluster_agg = df_cluster_assignment.agg([
                        ('count','KEY','COUNT_DOCS')
                        ],
-                       group_by = ['CLUSTER_ID'] )
+                       group_by = ['CLUSTER_ID'])
 
 # Zählen der Dokumente pro Cluster
 cluster_agg.sort(['CLUSTER_ID']).collect()

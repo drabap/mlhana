@@ -23,7 +23,7 @@ from hana_ml.visualizers.eda import EDAVisualizer
 import matplotlib.pyplot as plt
 
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 # CHURN laden
 g_df_churn = connection.table('CHURN', schema = 'ML_DATA')
@@ -34,7 +34,7 @@ g_df_iris = connection.table('IRIS', schema = 'ML_DATA')
 # In[2]:
 
 
-# Scatter-Plot von IRIS mit Pandas
+# Streudiagramm von IRIS mit Pandas
 # X,Y : Länge/Breite
 # Farbe: Kategorie (Spalte SPECIES)
 
@@ -48,11 +48,11 @@ pd_iris['SPECIES'] = pd_iris['SPECIES'].astype('category')
 pd_iris['SPECIES_CAT'] = pd_iris['SPECIES'].cat.codes
 
 # Scatter Plot
-pd_iris.plot( kind = 'scatter',  
-              x = 'SEPAL_LENGTH',
-              y = 'PETAL_WIDTH',
-              c = 'SPECIES_CAT',
-              cmap = 'coolwarm' )
+pd_iris.plot(kind = 'scatter',  
+             x = 'SEPAL_LENGTH',
+             y = 'PETAL_WIDTH',
+             c = 'SPECIES_CAT',
+             cmap = 'coolwarm')
 
 
 # # Plotly - Facet plot
@@ -148,7 +148,7 @@ l_pd_df_ext = l_df_text_ext.sort(group_by_col_ext).collect()
 
 # Zeichnen
 
-fig = px.bar( l_pd_df_ext, 
+fig = px.bar(l_pd_df_ext, 
              x = 'NUMOFPRODUCTS', 
              y = 'COUNT_CUSTOMER', 
              color = 'EXIT_LABEL', 
@@ -157,10 +157,10 @@ fig = px.bar( l_pd_df_ext,
              facet_row_spacing = 0.07,
              labels = {'COUNT_CUSTOMER' : 'Kunden', 
                        'EXIT_LABEL' : 'Kündigung'},
-             color_discrete_sequence = px.colors.qualitative.D3 )
+             color_discrete_sequence = px.colors.qualitative.D3)
 
 # Optional: "Compare data on hover" aktivieren
-# fig.update_layout( hovermode = 'x' )
+# fig.update_layout(hovermode = 'x')
 
 fig.show( )
 

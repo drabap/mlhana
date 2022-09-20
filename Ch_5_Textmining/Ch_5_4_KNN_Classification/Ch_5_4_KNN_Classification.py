@@ -14,9 +14,9 @@
 # Verbindung zur HANA
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
-df_newscorp = connection.table('NEWSCORP', 
+df_newscorp = connection.table('NEWSCORP',
                                schema = 'ML_TEXT')
 
 # Umwandeln von CLOB nach NVARCHAR - Textmining-Paket unterstützt nur 5000 Zeichen
@@ -54,10 +54,10 @@ df_input_test.collect()
 
 # Aufruf der Textklassifikation
 from hana_ml.text.tm import text_classification
-res = text_classification( pred_data = df_input_test,
+res = text_classification(pred_data = df_input_test,
                           ref_data  = df_reference,
                           k_nearest_neighbours = 5,
-                          thread_ratio = 0.5 )
+                          thread_ratio = 0.5)
 
 res.select('ID','RANK','CATEGORY_VALUE','SCORE').collect()
 
@@ -87,7 +87,7 @@ compare.sort(['KEY','CAT_ACTUAL']).collect()
 
 
 # Zählen der richtigen und falschen Klassifikationen
-compare_agg = compare.agg( 
+compare_agg = compare.agg(
     agg_list = [('count','KEY','col_count')] ,
     group_by = ['CAT_ACTUAL','CAT_PREDICTED']).sort(['CAT_ACTUAL','CAT_PREDICTED'])
 

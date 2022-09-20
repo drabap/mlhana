@@ -1,7 +1,7 @@
 # Das neuronale Netz trainieren
 from hana_ml.algorithms.pal.neural_network import *
 
-mlp_c = MLPClassifier( hidden_layer_size = (30,15,10,5),
+mlp_c = MLPClassifier(hidden_layer_size = (30,15,10,5),
     activation = 'sigmoid_symmetric', 
     output_activation = 'sigmoid_symmetric',
     training_style = 'batch',

@@ -31,9 +31,9 @@ fig = px.bar(l_pd_df_ext,
     facet_row_spacing = 0.07,
     labels = {'COUNT_CUSTOMER' : 'Kunden',
               'EXIT_LABEL' : 'Kündigung'},
-    color_discrete_sequence = px.colors.qualitative.D3 )
+    color_discrete_sequence = px.colors.qualitative.D3)
 
 # Optional: "Compare data on hover" aktivieren
-# fig.update_layout( hovermode = 'x' )
+# fig.update_layout(hovermode = 'x')
 
 fig.show()

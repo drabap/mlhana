@@ -1,6 +1,6 @@
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV' )
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 df = connection.table('PAL_LDA_DOCUMENT_TOPIC_DIST',
     schema = 'ML_TEXT')
 

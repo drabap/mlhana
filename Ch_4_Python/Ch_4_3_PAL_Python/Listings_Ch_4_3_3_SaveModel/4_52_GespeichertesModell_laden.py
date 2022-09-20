@@ -1,6 +1,6 @@
 # Ein gespeichertes Modell laden
 g_rfc_loaded = model_storage.load_model(
-    name = g_model_name_rfc )
+    name = g_model_name_rfc)
 
 # Optionaler Parameter: version 
 #    Default: Letzte Version nehmen

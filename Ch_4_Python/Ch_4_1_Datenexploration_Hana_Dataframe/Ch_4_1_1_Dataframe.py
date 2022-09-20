@@ -7,7 +7,7 @@
 # Listing: Verbindung zu HANA von Python
 from hana_ml import dataframe
 
-connection = dataframe.ConnectionContext( KEY = 'DEV' )
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 
 # In[2]:

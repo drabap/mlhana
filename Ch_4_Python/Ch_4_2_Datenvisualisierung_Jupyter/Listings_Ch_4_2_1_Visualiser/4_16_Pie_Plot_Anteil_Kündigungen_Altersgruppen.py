@@ -14,4 +14,4 @@ ax2 = fig_churn_by_age.add_subplot(122)
 eda2 = EDAVisualizer(ax2)
 ax2, pie_data2 = eda2.pie_plot(data = df_age_above_50,
     column = 'EXITED',
-    title ="Churn for Age >= 50")
+    title ="Churn for Age > 50")

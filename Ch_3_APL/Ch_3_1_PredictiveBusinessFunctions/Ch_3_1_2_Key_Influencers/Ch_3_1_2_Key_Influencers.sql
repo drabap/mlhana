@@ -55,12 +55,12 @@ DO BEGIN
                                                  out_other_groups );
 
     -- Direkte Ausgabe der Ergebnisse
-    --SELECT * FROM :out_operation_log;
-    --SELECT * FROM :out_summary;
+    -- SELECT * FROM :out_operation_log;
+    -- SELECT * FROM :out_summary;
     SELECT * FROM :out_indicators;
     SELECT * FROM :out_influencers;
-    --SELECT * FROM :out_continuous_groups;
-    --SELECT * FROM :out_other_groups;
+    -- SELECT * FROM :out_continuous_groups;
+    -- SELECT * FROM :out_other_groups;
     
     /*
     * Ergänzung: Ergebnisse in Tabelle speichern

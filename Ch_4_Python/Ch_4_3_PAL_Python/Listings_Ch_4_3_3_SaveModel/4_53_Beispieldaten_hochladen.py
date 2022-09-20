@@ -24,4 +24,4 @@ l_df_new_cust = dataframe.create_dataframe_from_pandas(
     schema = 'ML_DATA',
     primary_key = 'CUSTOMERID',
     drop_exist_tab = True,
-    force = True )
+    force = True)

@@ -21,7 +21,7 @@
 from hana_ml import dataframe
 from hana_ml.algorithms.pal import partition
 
-connection = dataframe.ConnectionContext( KEY = 'DEV')
+connection = dataframe.ConnectionContext(KEY = 'DEV')
 
 # CHURN laden
 l_df_churn = connection.table('CHURN', schema = 'ML_DATA')
@@ -71,9 +71,9 @@ g_gradboost_c.set_params(
 
 
 # Modelltraining mit APL
-g_gradboost_c.fit( g_df_train, 
-                   label = 'EXITED', 
-                   key = 'CUSTOMERID' )
+g_gradboost_c.fit(g_df_train, 
+                  label = 'EXITED', 
+                  key = 'CUSTOMERID')
 
 
 # ## Indikatoren und Kennzahlen auslesen
@@ -97,7 +97,7 @@ g_gradboost_c.get_feature_importances()
 
 ## Prognosebildung mit APL
 
-l_df_result = g_gradboost_c.predict( g_df_test )
+l_df_result = g_gradboost_c.predict(g_df_test)
 
 l_df_result.collect()
 

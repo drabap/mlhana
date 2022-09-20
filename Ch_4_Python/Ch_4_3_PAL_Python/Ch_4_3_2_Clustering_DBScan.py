@@ -21,10 +21,10 @@
 # MALL_CUSTOMERS selektieren
 from hana_ml import dataframe
 
-conn = dataframe.ConnectionContext( KEY = 'DEV')
+conn = dataframe.ConnectionContext(KEY = 'DEV')
 
-g_df_mall_cust = conn.table( table = 'MALL_CUSTOMERS',
-                             schema = 'ML_DATA')
+g_df_mall_cust = conn.table(table = 'MALL_CUSTOMERS',
+                            schema = 'ML_DATA')
 
 # df_mall_cust.describe().collect()
 # df_mall_cust.head(20).collect()
@@ -46,7 +46,7 @@ eda = EDAVisualizer(ax1)
 # Greys: Graustufen
 # Reds, Blues
 
-ax1, scatter_data = eda.scatter_plot( 
+ax1, scatter_data = eda.scatter_plot(
                                   data = g_df_mall_cust, 
                                   x = 'AGE', 
                                   y = 'SPENDINGSCORE', 
@@ -66,20 +66,20 @@ ax1, scatter_data = eda.scatter_plot(
 # Aufruf von DBScan und Ausgabe der Cluster
 from hana_ml.algorithms.pal.clustering import DBSCAN
 
-dbscan = DBSCAN( minpts = 5,
-                 eps = 10,
-                 metric = 'euclidean' )
+dbscan = DBSCAN(minpts = 5,
+                eps = 10,
+                metric = 'euclidean')
 
 # Ergebnis des Clustering
-g_df_cluster_assignment = dbscan.fit_predict( 
+g_df_cluster_assignment = dbscan.fit_predict(
                                         data = g_df_mall_cust,
-                                        key = 'CUSTOMERID' )
+                                        key = 'CUSTOMERID')
 # Cluster anzeigen:
 # Anzahl Sätze pro Cluster
-l_df_cluster_agg = g_df_cluster_assignment.agg( [
+l_df_cluster_agg = g_df_cluster_assignment.agg([
                        ('count','CUSTOMERID','COUNT_CUSTOMER')
                        ],
-                       group_by = ['CLUSTER_ID'] )
+                       group_by = ['CLUSTER_ID'])
 
 l_df_cluster_agg.sort(['CLUSTER_ID']).collect()
 
@@ -92,7 +92,7 @@ l_df_cluster_1 = g_df_cluster_assignment.rename_columns({'CUSTOMERID' : 'CL_CUST
 
 l_df_cust_w_cluster = g_df_mall_cust.alias('CUST').join(
                                           other = l_df_cluster_1.alias('CLST'),
-                                          condition = 'CUSTOMERID = CL_CUSTID' )
+                                          condition = 'CUSTOMERID = CL_CUSTID')
 
 # Entferne überflüssige Spalte CL_CUSTID
 g_df_cust_w_cluster = l_df_cust_w_cluster.drop('CL_CUSTID')
@@ -105,7 +105,7 @@ g_df_cust_w_cluster.head(20).collect()
 # In[16]:
 
 
-# Scatter-Plot der Kunden nach Cluster
+# Streudiagramm der Kunden nach Cluster
 
 # Filtern auf Punkte in Cluster, dann umwandeln in Pandas
 l_pd_frame = g_df_cust_w_cluster.filter(
@@ -115,30 +115,30 @@ l_pd_frame["CLUSTER_ID"] = l_pd_frame["CLUSTER_ID"].astype('category')
 l_pd_frame["CLUSTER_ID"] = l_pd_frame["CLUSTER_ID"].cat.codes
 
 # Scatter Plot
-l_pd_frame.plot( kind = "scatter", 
-                 x = "AGE", 
-                 y = "SPENDINGSCORE",  
-                 c = "CLUSTER_ID",
-                 cmap = 'tab20c')
+l_pd_frame.plot(kind = "scatter", 
+                x = "AGE", 
+                y = "SPENDINGSCORE",  
+                c = "CLUSTER_ID",
+                cmap = 'tab20c')
                  
 
 
 # In[17]:
 
 
-# Box plot für SPENDINGSCORE je Cluster
+# Boxplot für SPENDINGSCORE je Cluster
 f = plt.figure(figsize=(18,6))
 
 ax1 = f.add_subplot(121)
 eda = EDAVisualizer(ax1)
 
-l_df_cust_2 = g_df_cust_w_cluster.cast( 'CLUSTER_ID',
-                                     'NVARCHAR(2)' )
+l_df_cust_2 = g_df_cust_w_cluster.cast('CLUSTER_ID',
+                                     'NVARCHAR(2)')
 
-ax, bar_data = eda.box_plot( data = l_df_cust_2,
-                             column = 'SPENDINGSCORE',
-                             groupby = 'CLUSTER_ID',
-                             outliers = True  )
+ax, bar_data = eda.box_plot(data = l_df_cust_2,
+                            column = 'SPENDINGSCORE',
+                            groupby = 'CLUSTER_ID',
+                            outliers = True)
 
 
 # ## Clustering mit KMeans
@@ -149,14 +149,14 @@ ax, bar_data = eda.box_plot( data = l_df_cust_2,
 # Clustering mit K-Means 
 from hana_ml.algorithms.pal.clustering import KMeans
 
-kmeans = KMeans( n_clusters = 4,
-                 init = 'first_k',
-                 max_iter = 100,
-                 distance_level = 'Euclidean',
-                 accelerated = True,
-                 category_weights = 0.5 )
+kmeans = KMeans(n_clusters = 4,
+                init = 'first_k',
+                max_iter = 100,
+                distance_level = 'Euclidean',
+                accelerated = True,
+                category_weights = 0.5)
 
-g_df_kmeans_assignment = kmeans.fit_predict( 
+g_df_kmeans_assignment = kmeans.fit_predict(
                                           data = g_df_mall_cust,
                                           key = 'CUSTOMERID' )
 # Cluster.Zuweisung ausgeben
@@ -179,8 +179,8 @@ kmeans.cluster_centers_.collect()
 # Beispiel für DBScan 
 l_df_subset = g_df_mall_cust.head(10)
 
-l_df_subset_cluster = dbscan.predict( data = l_df_subset,
-                                      key = 'CUSTOMERID')
+l_df_subset_cluster = dbscan.predict(data = l_df_subset,
+                                     key = 'CUSTOMERID')
 l_df_subset_cluster.collect()
 
 
@@ -190,8 +190,8 @@ l_df_subset_cluster.collect()
 # Ergänzung: Predict mit K-Means
 l_df_subset = g_df_mall_cust.head(10)
 
-l_df_subset_cluster = kmeans.predict( data = l_df_subset,
-                                      key = 'CUSTOMERID')
+l_df_subset_cluster = kmeans.predict(data = l_df_subset,
+                                     key = 'CUSTOMERID')
 l_df_subset_cluster.collect()
 
 
@@ -203,15 +203,15 @@ l_df_subset_cluster.collect()
 
 
 # Ergänzung: KMeans mit variabler Clusterzahl
-kmeans_var = KMeans( n_clusters_min = 2,
-                     n_clusters_max = 10,   
-                     init = 'first_k',
-                     max_iter = 100,
-                     distance_level = 'Euclidean',
-                     accelerated = True,
-                     category_weights = 0.5)
+kmeans_var = KMeans(n_clusters_min = 2,
+                    n_clusters_max = 10,   
+                    init = 'first_k',
+                    max_iter = 100,
+                    distance_level = 'Euclidean',
+                    accelerated = True,
+                    category_weights = 0.5)
 
-g_df_kmeans_assignment_var = kmeans_var.fit_predict( 
+g_df_kmeans_assignment_var = kmeans_var.fit_predict(
                                             data = g_df_mall_cust,
                                             key = 'CUSTOMERID')
 # Cluster.Zuweisung ausgeben
@@ -255,9 +255,9 @@ l_pd_frame.plot( kind = "scatter", x = "AGE", y = "SPENDINGSCORE",
 
 
 # Ergänzung K-Means
-# Verteilung Box Plot je nach Cluster
+# Verteilung Boxplot je nach Cluster
 
-# Box plot für die Variable AGE
+# Boxplot für die Variable AGE
 
 f = plt.figure(figsize=(18,6))
 
@@ -269,7 +269,7 @@ l_df_cust_w_kmeans = g_df_cust_w_kmeans.cast('CLUSTER_ID','NVARCHAR(2)')
 ax, bar_data = eda.box_plot(data = l_df_cust_w_kmeans,
                             column = 'SPENDINGSCORE',
                             groupby = 'CLUSTER_ID',
-                            outliers = True )
+                            outliers = True)
 
 
 # ## Zusatz: Speichern der Cluster-Modelle
@@ -301,7 +301,7 @@ model_storage.list_models()
 
 # Laden des Modells und Ausführen der Clusterzuweisung mit predict
 # Laden von bestimmter Version
-dbscan_loaded = model_storage.load_model( name = 'DBScan Mall 1', version = 4)
+dbscan_loaded = model_storage.load_model(name = 'DBScan Mall 1', version = 4)
 # Alternativ: Immer die neueste Version nehmen:
 # dbscan_loaded = model_storage.load_model( name = 'DBScan Mall 1' )
 
@@ -310,7 +310,7 @@ print(dbscan_loaded)
 # Predict anwenden (=> führt die Clusterzuweisung durch)
 l_df_subset = g_df_mall_cust.head(30)
 
-l_df_subset_cluster = dbscan_loaded.predict( data = l_df_subset,
+l_df_subset_cluster = dbscan_loaded.predict(data = l_df_subset,
                                            key = 'CUSTOMERID')
 
 l_df_subset_cluster.collect()

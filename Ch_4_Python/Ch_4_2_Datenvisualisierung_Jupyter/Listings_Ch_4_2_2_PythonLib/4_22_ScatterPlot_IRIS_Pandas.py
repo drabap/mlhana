@@ -1,4 +1,4 @@
-# Scatter Plot von IRIS mit Pandas
+# Streudiagramm von IRIS mit Pandas
 pd_iris = g_df_iris.collect()
 
 pd_iris['SPECIES'] = pd_iris['SPECIES'].astype('category')
